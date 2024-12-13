@@ -10,6 +10,7 @@ import pkg_resources
 errors = 0  # Define the 'errors' variable before using it
 log = logging.getLogger('sd')
 
+
 def check_python_version():
     """
     Check if the current Python version is within the acceptable range.
@@ -19,13 +20,13 @@ def check_python_version():
     """
     min_version = (3, 10, 9)
     max_version = (3, 11, 0)
-    
+
     from packaging import version
-    
+
     try:
         current_version = sys.version_info
         log.info(f"Python version is {sys.version}")
-        
+
         if not (min_version <= current_version < max_version):
             log.error(f"The current version of python ({current_version}) is not appropriate to run Kohya_ss GUI")
             log.error("The python version needs to be greater or equal to 3.10.9 and less than 3.11.0")
@@ -35,7 +36,8 @@ def check_python_version():
         log.error(f"Failed to verify Python version. Error: {e}")
         return False
 
-def update_submodule(quiet=True):
+
+def update_submodule(quiet = True):
     """
     Ensure the submodule is initialized and updated.
     
@@ -47,21 +49,22 @@ def update_submodule(quiet=True):
     - quiet: If True, suppresses the output of the Git command.
     """
     git_command = ["git", "submodule", "update", "--init", "--recursive"]
-    
+
     if quiet:
         git_command.append("--quiet")
-        
+
     try:
         # Initialize and update the submodule
         subprocess.run(git_command, check=True)
         log.info("Submodule initialized and updated.")
-        
+
     except subprocess.CalledProcessError as e:
         # Log the error if the Git operation fails
         log.error(f"Error during Git operation: {e}")
     except FileNotFoundError as e:
         # Log the error if the file is not found
         log.error(e)
+
 
 # def read_tag_version_from_file(file_path):
 #     """
@@ -94,44 +97,45 @@ def clone_or_checkout(repo_url, branch_or_tag, directory_name):
     try:
         if not os.path.exists(directory_name):
             # Directory does not exist, clone the repo quietly
-            
+
             # Construct the command as a string for logging
             # run_cmd = f"git clone --branch {branch_or_tag} --single-branch --quiet {repo_url} {directory_name}"
-            run_cmd = ["git", "clone", "--branch", branch_or_tag, "--single-branch", "--quiet", repo_url, directory_name]
-
+            run_cmd = ["git", "clone", "--branch", branch_or_tag, "--single-branch", "--quiet", repo_url,
+                       directory_name]
 
             # Log the command
             log.debug(run_cmd)
-            
+
             # Run the command
             process = subprocess.Popen(
                 run_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
             )
             output, error = process.communicate()
-            
+
             if error and not error.startswith("Note: switching to"):
                 log.warning(error)
             else:
                 log.info(f"Successfully cloned sd-scripts {branch_or_tag}")
-            
+
         else:
             os.chdir(directory_name)
             subprocess.run(["git", "fetch", "--all", "--quiet"], check=True)
             subprocess.run(["git", "config", "advice.detachedHead", "false"], check=True)
-            
+
             # Get the current branch or commit hash
             current_branch_hash = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip().decode()
             tag_branch_hash = subprocess.check_output(["git", "rev-parse", branch_or_tag]).strip().decode()
-            
+
             if current_branch_hash != tag_branch_hash:
                 run_cmd = f"git checkout {branch_or_tag} --quiet"
                 # Log the command
                 log.debug(run_cmd)
-                
+
                 # Execute the checkout command
-                process = subprocess.Popen(run_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                process = subprocess.Popen(run_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                           text=True)
                 output, error = process.communicate()
-                
+
                 if error:
                     log.warning(error.decode())
                 else:
@@ -143,8 +147,9 @@ def clone_or_checkout(repo_url, branch_or_tag, directory_name):
     finally:
         os.chdir(original_dir)  # Restore the original directory
 
+
 # setup console and file logging
-def setup_logging(clean=False):
+def setup_logging(clean = False):
     #
     # This function was adapted from code written by vladimandic: https://github.com/vladmandic/automatic/commits/master
     #
@@ -191,7 +196,7 @@ def setup_logging(clean=False):
     )
     log.setLevel(
         logging.DEBUG
-    )   # log to file is always at level debug for facility `sd`
+    )  # log to file is always at level debug for facility `sd`
     pretty_install(console=console)
     traceback_install(
         console=console,
@@ -218,7 +223,7 @@ def setup_logging(clean=False):
     log.addHandler(rh)
 
 
-def install_requirements_inbulk(requirements_file, show_stdout=True, optional_parm="", upgrade = False):
+def install_requirements_inbulk(requirements_file, show_stdout = True, optional_parm = "", upgrade = False):
     if not os.path.exists(requirements_file):
         log.error(f'Could not find the requirements file in {requirements_file}.')
         return
@@ -233,10 +238,9 @@ def install_requirements_inbulk(requirements_file, show_stdout=True, optional_pa
     else:
         run_cmd(f'pip install -r {requirements_file} {optional_parm} --quiet')
     log.info(f'Requirements from {requirements_file} installed.')
-    
 
 
-def configure_accelerate(run_accelerate=False):
+def configure_accelerate(run_accelerate = False):
     #
     # This function was taken and adapted from code written by jstayco
     #
@@ -247,7 +251,7 @@ def configure_accelerate(run_accelerate=False):
         return var_name in os.environ and os.environ[var_name] != ''
 
     log.info('Configuring accelerate...')
-    
+
     source_accelerate_config_file = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
         '..',
@@ -263,7 +267,7 @@ def configure_accelerate(run_accelerate=False):
             log.warning(
                 f'Could not find the accelerate configuration file in {source_accelerate_config_file}. Please configure accelerate manually by runningthe option in the menu.'
             )
-    
+
     log.debug(
         f'Source accelerate config location: {source_accelerate_config_file}'
     )
@@ -332,20 +336,20 @@ def check_torch():
 
     # Check for toolkit
     if shutil.which('nvidia-smi') is not None or os.path.exists(
-        os.path.join(
-            os.environ.get('SystemRoot') or r'C:\Windows',
-            'System32',
-            'nvidia-smi.exe',
-        )
+            os.path.join(
+                os.environ.get('SystemRoot') or r'C:\Windows',
+                'System32',
+                'nvidia-smi.exe',
+            )
     ):
         log.info('nVidia toolkit detected')
     elif shutil.which('rocminfo') is not None or os.path.exists(
-        '/opt/rocm/bin/rocminfo'
+            '/opt/rocm/bin/rocminfo'
     ):
         log.info('AMD toolkit detected')
     elif (shutil.which('sycl-ls') is not None
-    or os.environ.get('ONEAPI_ROOT') is not None
-    or os.path.exists('/opt/intel/oneapi')):
+          or os.environ.get('ONEAPI_ROOT') is not None
+          or os.path.exists('/opt/intel/oneapi')):
         log.info('Intel OneAPI toolkit detected')
     else:
         log.info('Using CPU-only Torch')
@@ -390,7 +394,7 @@ def check_torch():
                 )
         else:
             log.warning('Torch reports GPU not available')
-        
+
         return int(torch.__version__[0])
     except Exception as e:
         # log.warning(f'Could not load torch: {e}')
@@ -401,20 +405,22 @@ def check_torch():
 def check_repo_version():
     """
     This function checks the version of the repository by reading the contents of a file named '.release'
-    in the current directory. If the file exists, it reads the release version from the file and logs it.
+    in the current directory.
+    If the file exists, it reads the release version from the file and logs it.
     If the file does not exist, it logs a debug message indicating that the release could not be read.
     """
     if os.path.exists('.release'):
         try:
             with open(os.path.join('./.release'), 'r', encoding='utf8') as file:
-                release= file.read()
-            
+                release = file.read()
+
             log.info(f'Kohya_ss GUI version: {release}')
         except Exception as e:
             log.error(f'Could not read release: {e}')
     else:
         log.debug('Could not read release...')
-    
+
+
 # execute git command
 def git(arg: str, folder: str = None, ignore: bool = False):
     """
@@ -435,9 +441,10 @@ def git(arg: str, folder: str = None, ignore: bool = False):
     Note:
     This function was adapted from code written by vladimandic: https://github.com/vladmandic/automatic/commits/master
     """
-    
+
     git_cmd = os.environ.get('GIT', "git")
-    result = subprocess.run(f'"{git_cmd}" {arg}', check=False, shell=True, env=os.environ, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=folder or '.')
+    result = subprocess.run(f'"{git_cmd}" {arg}', check=False, shell=True, env=os.environ,
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=folder or '.')
     txt = result.stdout.decode(encoding="utf8", errors="ignore")
     if len(result.stderr) > 0:
         txt += ('\n' if len(txt) > 0 else '') + result.stderr.decode(encoding="utf8", errors="ignore")
@@ -475,22 +482,25 @@ def pip(arg: str, ignore: bool = False, quiet: bool = False, show_stdout: bool =
     """
     # arg = arg.replace('>=', '==')
     if not quiet:
-        log.info(f'Installing package: {arg.replace("install", "").replace("--upgrade", "").replace("--no-deps", "").replace("--force", "").replace("  ", " ").strip()}')
+        log.info(
+            f'Installing package: {arg.replace("install", "").replace("--upgrade", "").replace("--no-deps", "").replace("--force", "").replace("  ", " ").strip()}')
     log.debug(f"Running pip: {arg}")
     if show_stdout:
         subprocess.run(f'"{sys.executable}" -m pip {arg}', shell=True, check=False, env=os.environ)
     else:
-        result = subprocess.run(f'"{sys.executable}" -m pip {arg}', shell=True, check=False, env=os.environ, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        result = subprocess.run(f'"{sys.executable}" -m pip {arg}', shell=True, check=False, env=os.environ,
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         txt = result.stdout.decode(encoding="utf8", errors="ignore")
         if len(result.stderr) > 0:
             txt += ('\n' if len(txt) > 0 else '') + result.stderr.decode(encoding="utf8", errors="ignore")
         txt = txt.strip()
         if result.returncode != 0 and not ignore:
-            global errors # pylint: disable=global-statement
+            global errors  # pylint: disable=global-statement
             errors += 1
             log.error(f'Error running pip: {arg}')
             log.debug(f'Pip output: {txt}')
         return txt
+
 
 def installed(package, friendly: str = None):
     """
@@ -509,7 +519,7 @@ def installed(package, friendly: str = None):
     Note:
     This function was adapted from code written by vladimandic.
     """
-    
+
     # Remove any optional features specified in brackets (e.g., "package[option]==version" becomes "package==version")
     package = re.sub(r'\[.*?\]', '', package)
 
@@ -517,7 +527,7 @@ def installed(package, friendly: str = None):
         if friendly:
             # If a 'friendly' version of the package string is provided, split it into components
             pkgs = friendly.split()
-            
+
             # Filter out command-line options and URLs from the package specification
             pkgs = [
                 p
@@ -583,14 +593,13 @@ def installed(package, friendly: str = None):
         return False
 
 
-
 # install package using pip if not already installed
 def install(
-    package,
-    friendly: str = None,
-    ignore: bool = False,
-    reinstall: bool = False,
-    show_stdout: bool = False,
+        package,
+        friendly: str = None,
+        ignore: bool = False,
+        reinstall: bool = False,
+        show_stdout: bool = False,
 ):
     """
     Installs or upgrades a Python package using pip, with options to ignode errors,
@@ -620,7 +629,7 @@ def install(
     package = package.split('#')[0].strip()
 
     if reinstall:
-        global quick_allowed   # pylint: disable=global-statement
+        global quick_allowed  # pylint: disable=global-statement
         quick_allowed = False
     if reinstall or not installed(package, friendly):
         pip(f'install --upgrade {package}', ignore=ignore, show_stdout=show_stdout)
@@ -633,7 +642,7 @@ def process_requirements_line(line, show_stdout: bool = False):
     install(line, package_name, show_stdout=show_stdout)
 
 
-def install_requirements(requirements_file, check_no_verify_flag=False, show_stdout: bool = False):
+def install_requirements(requirements_file, check_no_verify_flag = False, show_stdout: bool = False):
     if check_no_verify_flag:
         log.info(f'Verifying modules installation status from {requirements_file}...')
     else:
@@ -645,17 +654,17 @@ def install_requirements(requirements_file, check_no_verify_flag=False, show_std
                 line.strip()
                 for line in f.readlines()
                 if line.strip() != ''
-                and not line.startswith('#')
-                and line is not None
-                and 'no_verify' not in line
+                   and not line.startswith('#')
+                   and line is not None
+                   and 'no_verify' not in line
             ]
         else:
             lines = [
                 line.strip()
                 for line in f.readlines()
                 if line.strip() != ''
-                and not line.startswith('#')
-                and line is not None
+                   and not line.startswith('#')
+                   and line is not None
             ]
 
         # Iterate over each line and install the requirements
@@ -672,10 +681,10 @@ def install_requirements(requirements_file, check_no_verify_flag=False, show_std
 
 def ensure_base_requirements():
     try:
-        import rich   # pylint: disable=unused-import
+        import rich  # pylint: disable=unused-import
     except ImportError:
         install('--upgrade rich', 'rich')
-        
+
     try:
         import packaging
     except ImportError:
@@ -710,4 +719,3 @@ def clear_screen():
         os.system('cls')
     else:  # If the operating system is Linux or Mac
         os.system('clear')
-

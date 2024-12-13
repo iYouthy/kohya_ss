@@ -29,14 +29,17 @@ if env_var_exists RUNPOD_POD_ID || env_var_exists RUNPOD_API_KEY; then
   RUNPOD=true
 fi
 
-# If it is run with the sudo command, get the complete LD_LIBRARY_PATH environment variable of the system and assign it to the current environment,
+# If it is run with the sudo command,
+# get the complete LD_LIBRARY_PATH environment variable
+# of the system and assign it to the current environment,
 # because it will be used later.
 if [ -n "$SUDO_USER" ] || [ -n "$SUDO_COMMAND" ]; then
     echo "The sudo command resets the non-essential environment variables, we keep the LD_LIBRARY_PATH variable."
     export LD_LIBRARY_PATH=$(sudo -i printenv LD_LIBRARY_PATH)
 fi
 
-# This gets the directory the script is run from so pathing can work relative to the script where needed.
+# This gets the directory the script is run from so pathing
+# can work relative to the script where needed.
 SCRIPT_DIR=$(cd -- "$(dirname -- "$0")" && pwd)
 
 # Step into GUI local directory
@@ -49,7 +52,7 @@ else
 fi
 
 # Check if LD_LIBRARY_PATH environment variable exists
-if [[ -z "${LD_LIBRARY_PATH}" ]]; then
+if [[ "$OSTYPE" != "darwin"* ]] && [[ -z "${LD_LIBRARY_PATH}" ]]; then
     # Set the ANSI escape sequence for yellow text
     YELLOW='\033[0;33m'
     # Set the ANSI escape sequence to reset text color
@@ -72,9 +75,9 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     fi
 else
     if [ "$RUNPOD" = false ]; then
-        if [[ "$@" == *"--use-ipex"* ]]; then
+        if [[ "$*" == *"--use-ipex"* ]]; then
             REQUIREMENTS_FILE="$SCRIPT_DIR/requirements_linux_ipex.txt"
-        elif [[ "$@" == *"--use-rocm"* ]] || [ -x "$(command -v rocminfo)" ] || [ -f "/opt/rocm/bin/rocminfo" ]; then
+        elif [[ "$*" == *"--use-rocm"* ]] || [ -x "$(command -v rocminfo)" ] || [ -f "/opt/rocm/bin/rocminfo" ]; then
             REQUIREMENTS_FILE="$SCRIPT_DIR/requirements_linux_rocm.txt"
         else
             REQUIREMENTS_FILE="$SCRIPT_DIR/requirements_linux.txt"
@@ -85,14 +88,14 @@ else
 fi
 
 #Set OneAPI if it's not set by the user
-if [[ "$@" == *"--use-ipex"* ]]
+if [[ "$*" == *"--use-ipex"* ]]
 then
     if [ -d "$SCRIPT_DIR/venv" ] && [[ -z "${DISABLE_VENV_LIBS}" ]]; then
         export LD_LIBRARY_PATH=$(realpath "$SCRIPT_DIR/venv")/lib/:$LD_LIBRARY_PATH
     fi
     export NEOReadDebugKeys=1
     export ClDeviceGlobalMemSizeAvailablePercent=100
-    if [[ ! -z "${IPEXRUN}" ]] && [ ${IPEXRUN}="True" ] && [ -x "$(command -v ipexrun)" ]
+    if [[ -n "${IPEXRUN}" ]] && [ "${IPEXRUN}" = "True" ] && [ -x "$(command -v ipexrun)" ]
     then
         if [[ -z "$STARTUP_CMD" ]]
         then
