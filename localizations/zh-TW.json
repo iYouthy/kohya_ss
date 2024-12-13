@@ -434,7 +434,7 @@
 	"Train batch size": "訓練批次大小",
 	"Train Norm": "訓練規範 (Norm)",
 	"Train a custom model using kohya dreambooth python code...": "使用 kohya Dreambooth Python 程式訓練自定義模型",
-	"Train a custom model using kohya train network LoRA python code...": "使用 kohya LoRA Python 程式訓練自定義模型",
+	"Train a custom model using kohya train network LoRA python code…": "使用 kohya LoRA Python 程式訓練自定義模型",
 	"Train a custom model using kohya finetune python code...": "使用 kohya 微調 Python 程式訓練自定義模型",
 	"Train a TI using kohya textual inversion python code...": "使用 kohya 文本反轉 Python 程式訓練 TI",
 	"Train an additional scalar in front of the weight difference, use a different weight initialization strategy.": "在權重差異前訓練一個額外的標量，使用不同的權重初始化策略。",

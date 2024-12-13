@@ -1320,7 +1320,7 @@ def lora_tab(
 
     with gr.Tab("Training"), gr.Column(variant="compact") as tab:
         gr.Markdown(
-            "Train a custom model using kohya train network LoRA python code..."
+            "Train a custom model using kohya train network LoRA python code…"
         )
 
         # Setup Configuration Files Gradio
