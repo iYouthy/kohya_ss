@@ -187,21 +187,21 @@ install_python_dependencies() {
   local TEMP_REQUIREMENTS_FILE
 
   # Switch to local virtual env
-  echo "Switching to virtual Python environment."
-  if ! inDocker; then
-    if command -v python3.10 >/dev/null; then
-      python3.10 -m venv "$DIR/venv"
-    elif command -v python3 >/dev/null; then
-      python3 -m venv "$DIR/venv"
-    else
-      echo "Valid python3 or python3.10 binary not found."
-      echo "Cannot proceed with the python steps."
-      return 1
-    fi
-
-    # Activate the virtual environment
-    source "$DIR/venv/bin/activate"
-  fi
+  #  echo "Switching to virtual Python environment."
+  #  if ! inDocker; then
+  #    if command -v python3.10 >/dev/null; then
+  #      python3.10 -m venv "$DIR/venv"
+  #    elif command -v python3 >/dev/null; then
+  #      python3 -m venv "$DIR/venv"
+  #    else
+  #      echo "Valid python3 or python3.10 binary not found."
+  #      echo "Cannot proceed with the python steps."
+  #      return 1
+  #    fi
+  #
+  #    # Activate the virtual environment
+  #    source "$DIR/venv/bin/activate"
+  #  fi
 
   case "$OSTYPE" in
     "lin"*)
@@ -224,14 +224,14 @@ install_python_dependencies() {
       ;;
   esac
 
-  if [ -n "$VIRTUAL_ENV" ] && ! inDocker; then
-    if command -v deactivate >/dev/null; then
-      echo "Exiting Python virtual environment."
-      deactivate
-    else
-      echo "deactivate command not found. Could still be in the Python virtual environment."
-    fi
-  fi
+  #  if [ -n "$VIRTUAL_ENV" ] && ! inDocker; then
+  #    if command -v deactivate >/dev/null; then
+  #      echo "Exiting Python virtual environment."
+  #      deactivate
+  #    else
+  #      echo "deactivate command not found. Could still be in the Python virtual environment."
+  #    fi
+  #  fi
 }
 
 # Function to configure accelerate
