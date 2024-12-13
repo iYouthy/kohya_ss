@@ -61,7 +61,11 @@ def check_torch():
             pass
         log.info(f'Torch {torch.__version__}')
 
-        if torch.cuda.is_available():
+        if torch.backends.mps.is_available():
+            mps_device = torch.device("mps")
+            x = torch.ones(1, device=mps_device)
+            log.info(f"Torch backend: {x}")
+        elif torch.cuda.is_available():
             if torch.version.cuda:
                 # Log nVidia CUDA and cuDNN versions
                 log.info(
@@ -104,15 +108,8 @@ def main():
     check_path_with_space()
     
     # Parse command line arguments
-    parser = argparse.ArgumentParser(
-        description='Validate that requirements are satisfied.'
-    )
-    parser.add_argument(
-        '-r',
-        '--requirements',
-        type=str,
-        help='Path to the requirements file.',
-    )
+    parser = argparse.ArgumentParser(description='Validate that requirements are satisfied.')
+    parser.add_argument('-r', '--requirements', type=str, help='Path to the requirements file.',)
     parser.add_argument('--debug', action='store_true', help='Debug on')
     args = parser.parse_args()
     
