@@ -1,6 +1,4 @@
-
- {
-  
+{
   "-Need to add resources here": "-需要在这里添加资源",
   "(Experimental, Optional) Since the latent is close to a normal distribution, it may be a good idea to specify a value around 1/10 the noise offset.": "（实验性，可选）由于潜在变量接近正态分布，指定一个接近噪声偏移1/10的值可能是个好主意。",
   "(Optional) Add training comment to be included in metadata": "(可选)增加训练注释到元数据",
@@ -18,7 +16,6 @@
   "Advanced parameters": "高级参数",
   "Advanced": "增强",
   "ashleykleynhans runpod docker builds": "ashleykleynhans runpod docker构建",
-  "Automatically determine the dim(rank) from the weight file.": "从权重文件自动确定dim（排名）。",
   "Autosave": "自动保存",
   "Basic Captioning": "基本标签",
   "Basic": "基础",
@@ -53,7 +50,6 @@
   "Desired LoRA rank": "期望的LoRA秩",
   "Destination training directory": "训练结果目录",
   "Device": "设备",
-  "DIM from weights": "从权重获取DIM",
   "Directory containing the images to caption": "包含训练图片相关标签的目录",
   "Directory containing the training images": "包含训练图片的目录",
   "Directory where formatted training and regularisation folders will be placed": "训练和正则化文件会被取代",
@@ -72,7 +68,6 @@
   "Enable buckets": "启用数据容器buckets",
   "Enable for Hugging Face's stabilityai models": "启用Hugging Face的stabilityai模型",
   "Enter one sample prompt per line to generate multiple samples per cycle. Optional specifiers include: --w (width), --h (height), --d (seed), --l (cfg scale), --s (sampler steps) and --n (negative prompt). To modify sample prompts during training, edit the prompt.txt file in the samples directory.": "每行输入一个样本提示以生成每个周期的多个样本。可选指定符包括：--w（宽度），--h（高度），--d（种子），--l（cfg比例），--s（采样器步骤）和--n（负提示）。要在训练期间修改样本提示，请编辑样本目录中的prompt.txt文件。",
-  "Epoch": "数量增加",
   "Error": "错误",
   "Example of the optimizer settings for Adafactor with the fixed learning rate:": "具有固定学习率的Adafactor优化器设置的示例：",
   "Extract DyLoRA": "提取DyLoRA",
@@ -149,7 +144,7 @@
   "Max resolution": "最大分辨率",
   "Max Timestep": "最大时间步",
   "Max Token Length": "最大令牌长度",
-  "Max train epoch": "每批数量",
+  "Max train epoch": "最大训练轮次",
   "Max train steps": "最大训练步数",
   "Maximum bucket resolution": "最大数据容器存储桶分辨率",
   "Maximum size in pixel a bucket can be (>= 64)": "可以达到的最大像素尺寸（>= 64）",
@@ -325,7 +320,6 @@
   "Token string": "令牌字符串",
   "Train a custom model using kohya finetune python code": "使用kohya微调Python代码训练个性化模型",
   "Train a custom model using kohya train network LoRA python code…": "使用kohya的Python脚本来训练自定义的LoRA模型",
-  "Train batch size": "训练批次大小",
   "Train Network": "训练网络",
   "Train text encoder": "训练文本编码器",
   "Train U-Net only.": "仅训练 U-Net",
@@ -358,6 +352,17 @@
   "Train a custom model using kohya dreambooth python code…": "使用kohya的dreambooth Python代码训练个性化模型",
   "Training comment": "训练注释",
   "Train a TI using kohya textual inversion python code…": "使用kohya的文本反转Python代码训练TI模型",
-  "Train a custom model using kohya finetune python code…": "使用kohya的微调Python代码训练个性化模型"
+  "Train a custom model using kohya finetune python code…": "使用kohya的微调Python代码训练个性化模型",
 
+  "Presets": "预设",
+
+  "LoRA type": "LoRA 类型",
+  "Network weights": "复用",
+  "Path to an existing LoRA network weights to resume training from": "输入 LoRA 模型文件路径，基于该模型继续训练",
+  "Automatically determine the dim(rank) from the weight file.": "复用该模型的维度（秩）",
+  "DIM from weights": "复用维度（秩）",
+  "LyCORIS Preset": "LyCORIS 预设",
+
+  "Train batch size": "批次大小",
+  "Epoch": "轮次数量"
 }
