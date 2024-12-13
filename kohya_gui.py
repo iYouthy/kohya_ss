@@ -14,7 +14,8 @@ from kohya_gui.localization_ext import add_javascript
 
 
 def UI(**kwargs):
-    add_javascript(kwargs.get("language"))
+    # add_javascript(kwargs.get("language"))
+    add_javascript("zh-CN")
     css = ""
 
     headless = kwargs.get("headless", False)
@@ -55,6 +56,8 @@ def UI(**kwargs):
         log.info("Using shell=True when running external commands...")
 
     with interface:
+        with gr.Tab("LoRA"):
+            lora_tab(headless=headless, config=config, use_shell_flag=use_shell_flag)
         with gr.Tab("Dreambooth"):
             (
                 train_data_dir_input,
@@ -64,8 +67,6 @@ def UI(**kwargs):
             ) = dreambooth_tab(
                 headless=headless, config=config, use_shell_flag=use_shell_flag
             )
-        with gr.Tab("LoRA"):
-            lora_tab(headless=headless, config=config, use_shell_flag=use_shell_flag)
         with gr.Tab("Textual Inversion"):
             ti_tab(headless=headless, config=config, use_shell_flag=use_shell_flag)
         with gr.Tab("Finetuning"):
