@@ -110,7 +110,8 @@ class BasicTraining:
             )
             # Initialize the save every N epochs input
             self.save_every_n_epochs = gr.Number(
-                label="Save every N epochs",
+                label="Auto save model",
+                info="Save every N epochs",
                 value=self.config.get("basic.save_every_n_epochs", 1),
                 precision=0,
             )

@@ -25,7 +25,6 @@
   "Built with Gradio": "使用Gradio构建",
   "Cache latents to disk": "缓存潜变量到磁盘",
   "Cache latents": "缓存潜变量",
-  "Caption file extension": "标签文件扩展名",
   "Caption text": "标签文本",
   "caption": "标签",
   "Change History": "更改历史",
@@ -254,7 +253,6 @@
   "Sample sampler": "样本采样器",
   "Samples": "样例",
   "Save dtype": "保存数据类型",
-  "Save every N epochs": "每N个epochs保存",
   "Save every N steps": "每N步保存一次",
   "Save last N steps state": "保存最后N步状态",
   "Save last N steps": "保存最后N步",
@@ -363,6 +361,11 @@
   "DIM from weights": "复用维度（秩）",
   "LyCORIS Preset": "LyCORIS 预设",
 
-  "Train batch size": "批次大小",
-  "Epoch": "轮次数量"
+  "Train batch size": "批次数量",
+  "Epoch": "轮次数量",
+  "training epochs (overrides max_train_steps). 0 = no override": "将覆盖最大训练步数（0 则不覆盖）",
+  "Overrides # training steps. 0 = no override": "将覆盖训练步数（0 则不覆盖）",
+  "Auto save model": "自动保存模型",
+  "Save every N epochs": "每N个轮次保存一次",
+  "Caption file extension": "Caption 文件后缀"
 }

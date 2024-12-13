@@ -341,7 +341,7 @@
 	"Sample sampler": "取樣取樣器",
 	"Samples": "範本",
 	"Save dtype": "儲存 dtype",
-	"Save every N epochs": "每 N 個週期 (Epoch) 儲存",
+	"Auto save model": "每 N 個週期 (Epoch) 儲存",
 	"Save every N steps": "每 N 個步驟儲存",
 	"Save last N steps state": "儲存最後 N 個步驟的訓練狀態",
 	"Save last N steps": "儲存最後 N 個步驟",
