@@ -84,14 +84,14 @@ class BasicTraining:
                 minimum=1,
                 maximum=64,
                 label="Train batch size",
-                info="",
+                info=" ",
                 value=1,
                 step=self.config.get("basic.train_batch_size", 1),
             )
             # Initialize the epoch number input
             self.epoch = gr.Number(
                 label="Epoch",
-                info="",
+                info=" ",
                 value=self.config.get("basic.epoch", 1),
                 precision=0
             )
@@ -122,7 +122,7 @@ class BasicTraining:
             # Initialize the caption extension input
             self.caption_extension = gr.Dropdown(
                 label="Caption file extension",
-                info="",
+                info=" ",
                 choices=["", ".cap", ".caption", ".txt"],
                 value=".txt",
                 interactive=True,
