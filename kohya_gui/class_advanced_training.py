@@ -1,3 +1,5 @@
+import logging
+
 import gradio as gr
 from typing import Tuple
 from .common_gui import (
@@ -40,6 +42,9 @@ class AdvancedTraining:
             training_type (str): The type of training to be performed.
             config (dict): Configuration options for the training process.
         """
+
+        logging.info(f"training type is {training_type}")
+
         self.headless = headless
         self.finetuning = finetuning
         self.training_type = training_type
